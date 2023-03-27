@@ -1,6 +1,10 @@
 Hello, first time git user
+<<<<<<< HEAD
 
 MASTER COMMIT
 
 FEATURE 1 COMMIT 
 
+=======
+FEATURE 1 COMMIT 
+>>>>>>> feature1
