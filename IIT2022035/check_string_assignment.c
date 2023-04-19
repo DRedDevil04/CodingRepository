@@ -77,22 +77,22 @@ void enqueue(queue **front,queue **rear,float element){
 }
 void wxw(char s[]){
 
-	stack *s1;
-	create_stack(&s1);
+	queue *q,*qr;
+	create_queue(&q,&qr);
 	int n=strlen(s);
 	
 	for(int i=0;i<n/2;i++){
-		push(&s1,s[i]);	
+		enqueue(&q,&qr,s[i]);	
 	}
 	int i=n/2;
 	if(n%2==1){
 	
 		i++;
 	}
-	for(i=n/2;i<n;i++){
+	for(;i<n;i++){
 		char c;
-		while(s1!=NULL && s[i]!=(c=pop(&s1))){
-			printf("\n%c and %c",c,s[i]);
+		while(q!=NULL && s[i]!=(c=dequeue(&q,&qr))){
+			// printf("\n%c and %c",c,s[i]);
 			i++;
 			continue;
 		
@@ -103,7 +103,7 @@ void wxw(char s[]){
 	}
 	
 	
-	if(s1==NULL){
+	if(q==NULL){
 	
 		printf("\nNO\n");
 	
@@ -149,6 +149,12 @@ void ww(char s[]){
 }
 
 void wwr(char s[]){
+	if(s[0]==s[strlen(s)-1]){
+		printf("\nYES\n");
+	}
+	else{
+		printf("\nNO\n");
+	}
 	return;
 }
 
