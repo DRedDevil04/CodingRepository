@@ -1,0 +1,5 @@
+x=1.0
+while(x):
+
+	x=float(input("Enter:"))
+	print(x*0.22655123)
