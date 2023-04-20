@@ -37,7 +37,6 @@ void PrimeFactors(int N)
 	print_stack(&st);
 }
 
-// Driver Code
 int main()
 {
 	int N;
