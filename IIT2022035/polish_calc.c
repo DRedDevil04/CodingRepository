@@ -57,7 +57,7 @@ int main(int argc, char*argv[]){
 			
 			int q=1;
 			while(s[i]!='\0' && ((s[i]-'0')<=9 && (s[i]-'0')>=0) ){
-				sum*=q;
+				
 				q*=10;
 				sum+=(s[i]-'0')*q;
 				
