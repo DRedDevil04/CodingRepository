@@ -83,6 +83,9 @@ void delete_tail(struct node **head){
 
 void permutation(int chosen[], int a[],struct node **head, int r,int size)
 {  
+	// printf("\nArr is : ");
+	// printArr(a,r);
+	// printf("\n");
     if (size == r) {
     	printf("\n\n");
         print_list(*head);
