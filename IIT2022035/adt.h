@@ -234,6 +234,77 @@ void deleteBinTree(tree *temp){
 
 	}
 }
+int numNodesBinTree(tree* t){
+	if(t==NULL){
+		return 0;
+	}
+	return (numNodesBinTree(t->left)+numNodesBinTree(t->right))+1;
+}
+int sumNodesBinTree(tree* t){
+	if(t==NULL){
+		return 0;
+	}
+	return (sumNodesBinTree(t->left)+sumNodesBinTree(t->right))+t->key;
+}
+int depthBinTree(tree* t){
+	if(t==NULL){
+		return 0;
+	}
+	int l=(depthBinTree(t->left)),h=(depthBinTree(t->right));
+	if(l>h){
+		return l+1;
+
+	}
+	else{
+		return h+1;
+	}
+	
+}
+
+
+void LCRSconv(tree* t){
+	if(t==NULL){
+		// printf("dsjkk\n");
+		return;
+	}
+	else{
+		tree* temp=t->right;
+		LCRSconv(t->left);
+		LCRSconv(temp);
+		if(t->parent==NULL){
+			// printf("%d   k\n",t->key);
+			return;
+		}
+		
+		// LCRSconv(t->right);
+		
+		if(t==t->parent->left){
+			
+
+			t->right=t->parent->right;
+			
+			t->parent->right=NULL;
+		}
+		else{
+			t->right=NULL;
+			// t->left=NULL;
+		}
+		
+		
+	}
+}
+void traverseLCRS(tree *t){
+	if(t==NULL){
+		return;
+	}
+
+	traverseLCRS(t->left);
+	// traverseLCRS(t->right);
+	printf("%d ",t->key);
+	traverseLCRS(t->right);
+}
+
+
 
 
 
