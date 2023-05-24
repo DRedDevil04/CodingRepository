@@ -29,71 +29,57 @@ void bubb(int arr[], int n){
 }
 
 int main(){
-
-
-
-
-
-
-
     srand(time(0));
-    FILE *f = fopen("input.txt", "w+");
-    if (f == NULL){
-        printf("File could not be opened.\n");
+    FILE *fptr = fopen("devam_rand_nums.txt", "w+");
+    if (fptr == NULL){
+        printf("File couldnt be created.\n");
         exit(-1);
     }
 
     for (int i = 0; i<100000; i++){
-        fprintf(f, "%d ", rand());
+        fprintf(fptr,"%d ",rand());
     }
-    fseek(f, 0, SEEK_SET);
-
-    int *arrays[100];
-
-
-
-
-    //printf("%d",arrays[0])
+    fseek(fptr,0,SEEK_SET);
+    int *arr[100];
     for (int i = 0; i<100; i++){
-        arrays[i] = (int *)malloc(1000*sizeof(int));
+        arr[i] = (int *)malloc(1000*sizeof(int));
         for (int j = 0; j<1000; j++){
-            fscanf(f, "%d ", &arrays[i][j]); 
+            fscanf(f, "%d ", &arr[i][j]); 
         }
     }
     for (int i = 0; i<100; i++){
-        bubb(arrays[i],1000);
+        bubb(arr[i],1000);
     }
-    FILE *out = fopen("output.txt", "w+");
+    FILE *fout = fopen("devam_sorted_nums.txt", "w+");
     if (out == NULL){
-        printf("File could not be opened.\n");
+        printf("File couldnt be created\n");
         exit(-1);
     }
-    int *indices = (int *)calloc(100, sizeof(int));
+    int *ind = (int *)calloc(100, sizeof(int));
     int *posi, min = __INT_MAX__;
     // for (int i = 0; i<100; i++) 
-    // printf("%d ", arrays[i][0]);
+    // printf("%d ", arr[i][0]);
     // printf("\n");
     // printf("\n");
     // printf("\n");
     for (int i = 0; i<100000; i++){
         min = __INT_MAX__;
-        for (int j = 0; j<100; j++){
-            // printf("%d ", arrays[j][indices[j]]);
-            if (indices[j] == -1) 
+        for (int j = 0; j<100; j++){   
+            if (ind[j] == -1) {
             	continue; 
+            }
             else{
-                if (arrays[j][indices[j]] < min){
-                    min = arrays[j][indices[j]];
-                    posi = &(indices[j]);
+                if (arr[j][ind[j]] < min){
+                    min = arr[j][ind[j]];
+                    posi = ind+j;
                 }
             }
         }
         (*posi)++;
         if (*posi == 1000) (*posi) = -1;
-        fprintf(out, "%d ", min);
+        fprintf(fout,"%d ",min);
     }
-    
-
-    fclose(f);
-    fclose(out);
+    fclose(fptr);
+    fclose(fout);
+    return 0;
 }

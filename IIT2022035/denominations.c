@@ -140,7 +140,11 @@ void greedy(int num,int denoms[],int k,int n){
 	delete_tail(&vector);
 
 }
-
+struct node * least_=NULL;
+void dp_coin(nums,denoms,number){
+	
+	return;
+}
 int main(){
 	int num;
 	printf("Enter number of denominations: ");

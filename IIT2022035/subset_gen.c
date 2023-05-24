@@ -81,7 +81,7 @@ void delete_tail(struct node **head){
 }
 
 
-void permutation(int chosen[], int a[],struct node **head, int r,int size)
+void permutation(int chosen[], int a[],struct node **head, int r,int size,int n)
 {  
 	// printf("\nArr is : ");
 	// printArr(a,r);
@@ -92,7 +92,7 @@ void permutation(int chosen[], int a[],struct node **head, int r,int size)
         // delete_tail(head);
         return;
     } 
-    for (int i = 0; i < r; i++) {
+    for (int i = 0; i < n; i++) {
         if(chosen[i]){
         	continue;
         }
@@ -101,46 +101,49 @@ void permutation(int chosen[], int a[],struct node **head, int r,int size)
         ele->next=NULL;
         ele->val=a[i];
         insert(head,ele);
-        permutation(chosen,a,head,r,size+1);
+        permutation(chosen,a,head,r,size+1,n);
         delete_tail(head);
         chosen[i]=0;
 
     }
 }
-void subset_generate(int * arr, int n,int r,struct node ** head,int i,int size){
-	if(i>n){
-		return;
-	}
-	if(size >r){
-		return;
-	}
-	if(size==r){
-		int *siu=(int *)malloc(sizeof(int)*r);
-		int *siu2=(int *)malloc(sizeof(int)*r);
-		struct node *hed=NULL;
-		for(int i=0;i<r;i++){
-			siu[i]=0;
-		}
-		struct node * ptr=*head;
-		int i=0;
-		for(;ptr!=NULL;ptr=ptr->next,i++){
-			siu2[i]=ptr->val;
-		}
-		printf("\n\nThe Permutations are:\n");
-		permutation(siu,siu2,&hed,r,0);
-		free_list(&hed);
-		// print_list(*head);
-		return;
-	}
-	subset_generate(arr,n,r,head,i+1,size);
-	struct node *ele=(struct node *)malloc(sizeof(struct node));
-	ele->next=NULL;
-	ele->val=arr[i];
-	insert(head,ele);
-	subset_generate(arr,n,r,head,i+1,size+1);
-	delete_tail(head);
+// int q=0;
+// void subset_generate(int * arr, int n,int r,struct node ** head,int i,int size){
+	
+// 	q++;
+// 	if(i>n){
+// 		return;
+// 	}
+// 	if(size >r){
+// 		return;
+// 	}
+// 	if(size==r){
+// 		int *siu=(int *)malloc(sizeof(int)*r);
+// 		int *siu2=(int *)malloc(sizeof(int)*r);
+// 		struct node *hed=NULL;
+// 		for(int i=0;i<r;i++){
+// 			siu[i]=0;
+// 		}
+// 		struct node * ptr=*head;
+// 		int i=0;
+// 		for(;ptr!=NULL;ptr=ptr->next,i++){
+// 			siu2[i]=ptr->val;
+// 		}
+// 		printf("\n\nThe Permutations are:\n");
+// 		permutation(siu,siu2,&hed,r,0);
+// 		free_list(&hed);
+// 		// print_list(*head);
+// 		return;
+// 	}
+// 	subset_generate(arr,n,r,head,i+1,size);
+// 	struct node *ele=(struct node *)malloc(sizeof(struct node));
+// 	ele->next=NULL;
+// 	ele->val=arr[i];
+// 	insert(head,ele);
+// 	subset_generate(arr,n,r,head,i+1,size+1);
+// 	delete_tail(head);
 
-}
+// }
 int main(){
 	
 	struct node *head,*ptr,*ptr2;
@@ -159,7 +162,13 @@ int main(){
 	// print_list(head);
 	printf("\nEnter the cardinality of subset: ");
 	scanf("%d",&r);
-	subset_generate(arr,n,r,&head,0,0);
+	int *siu=(int *)malloc(sizeof(int)*n);
+		
+	for(int i=0;i<n;i++){
+		siu[i]=0;
+	}
+	permutation(siu,arr,&head,r,0,n);
+	
 	return 0;
 }
 
