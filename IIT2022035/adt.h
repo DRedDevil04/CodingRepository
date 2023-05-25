@@ -280,7 +280,12 @@ void LCRSconv(tree* t){
 		
 		if(t==t->parent->left){
 			
-
+			if(t->left==NULL && t->right!=NULL){
+				t->left=t->right ;
+				t->right =NULL;
+				LCRSconv(t->left);
+				return;
+			}
 			t->right=t->parent->right;
 			
 			t->parent->right=NULL;
