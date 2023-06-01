@@ -1,1 +1,5 @@
 Hello, first time git user
+
+MASTER COMMIT
+
+FEATURE 1 COMMIT
