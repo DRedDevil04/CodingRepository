@@ -35,7 +35,7 @@ int main(){
 	printf("Post-order is: \n");
 	postorder(tree1);
 
-
+	
 
 	printf("\nNumber of nodes are : %d", numNodesBinTree(tree1));
 	printf("\nSum of values of nodes are : %d", sumNodesBinTree(tree1));

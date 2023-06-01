@@ -35,7 +35,8 @@ int main(){
 	printf("Post-order is: \n");
 	postorder(tree1);
 
-
+	printf("\n\n");
+	// print2D(tree1);
 	//CURRENTLY WORKS ONLY FOR A FULL BINARY TREE
 	printf("\n\n_______________________________LCRS______________________________\n\n");
 	LCRSconv(tree1);
