@@ -36,7 +36,9 @@ void insert_sorted(struct node **head,struct node *element){
 				return;
 
 			}
-
+			// prev->next=element;
+			// element->next=ptr;
+			// return;
 			prev=ptr;
 			continue;
 
@@ -46,6 +48,8 @@ void insert_sorted(struct node **head,struct node *element){
 			prev->next=element;
 			element->next=ptr;
 			return;
+			// prev=ptr;
+			// continue;
 
 		}
 

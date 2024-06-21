@@ -3,6 +3,8 @@ IIT2022035 LA5 P2(i)*/
 // Running time: O(n)
 #include<stdio.h>
 void swap(int *,int *);
+  
+
 int main()
 {
     

@@ -1,0 +1,9 @@
+to RUN
+go in Main.java and put the path of your Program.java and test_cases.csv file in lines 37 and 38
+then run Main.java
+
+
+test_cases.csv file contains the test cases in the following format (in this case)
+1st column - Number of test cases 
+Then next 3 * t columns, values of a, b,c
+last column - expected correct answer

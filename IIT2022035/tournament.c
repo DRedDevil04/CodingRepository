@@ -56,6 +56,8 @@ int main(){
 
     //downward traversal
     int max=arr[1];
+    // int indices[100];
+    // int 
     arr[1]=-1;
     int i =1;
     for(i=1;i<2*n;){

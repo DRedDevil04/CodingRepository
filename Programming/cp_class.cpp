@@ -1,259 +1,123 @@
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp> // Common file
+#include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update
+#include <ext/pb_ds/detail/standard_policies.hpp>
 using namespace std;
-
-#define rep(i,a,b) for (int i = a; i <= b; i++)
+ 
+#define fo(i,a,b) for (ll i = a; i <= b; i++)
 #define F first
 #define S second
-#define PB push_back
-#define MP make_pair
-typedef vector<int> vi;
+#define pb push_back
+#define mp make_pair
+#define vint vector<long long>
+#define mii
+const unsigned long long MOD =(1e9)+7;
+// const unsigned long long MOD =998244353;
+typedef vector<long long> vi;
 typedef pair<int,int> pi;
 typedef long long ll;
-int checkpal(string s){
-	int n=s.length();
-	rep(i,0,n/2){
-		if(s[i]!=s[n-i-1]){
-			return 0;
-		}
+#define int long long
+const int N=1e6+10;
+using namespace __gnu_pbds;
+
+
+typedef tree < int ,  null_type ,  less_equal<int> ,  rb_tree_tag ,  tree_order_statistics_node_update > ordered_set;
+
+void vecIn(vector<long long> &v,long long n){
+	for(ll i=0;i<n;i++){
+		ll num;
+		cin>>num;
+		v.push_back(num);
 	}
-	return 1;
-}
-int sumi(int n){
-	return (n*(n+1))/2;
-}
-int full_cover(int x, int y,int n,int m){
-	int k=4;
-	if(x==1){
-		k--;
-	}
-	if(y==1){
-		k--;
-	}
-	if(y==m){
-		k--;
-	}
-	if(x==n){
-		k--;
-	}
-	return k;
 }
 
-
-
-
-
-int joseph(int n,int k){
-	if(n==1){
-		return 1;
+vector<pair<int,int>> dirs={{1,0},{0,-1},{-1,0},{0,1}};
+bool checkCo(int i, int j, int n, int m){
+	if((i<0) || (i>=n) || (j<0) || (j>=m)) return false;
+	return true;
+}
+pair<int,int> dfs(int v, int par,vector<vector<int>> &gr,vector<int> &l,vector<int> &r){
+	int ct=0;
+	int moves=0;
+	int maxi=0;
+	for(auto ch:gr[v]){
+		
+		pair<int,int> p=dfs(ch,v,gr,l,r);
+		int move=p.first;
+		int mx=p.second;
+		if(move==0) continue;
+		maxi+=mx;
+		moves+=move;
+	}	
+	if(maxi<l[v]) {
+		moves++;
+		maxi=r[v];
 	}
 	else{
-		return (joseph(n-1,k)+k-1)%n+1;
+		maxi=min(r[v],maxi);
 	}
+	return {moves,maxi};
+}
+
+void solve(){
+
+	int n;
+	cin>>n;
+
+	priority_queue<pair<int,int>> pq;
+
+	vi a;
+	vecIn(a,n);
+	vector<pair<int,int>> ans;
+
+	for(int i=0;i<n;i++){
+		if(a[i]>0) pq.push({a[i],i+1});
+	}
+
+	while(pq.size()>=2){
+		auto f=pq.top();
+		pq.pop();
+		auto s=pq.top();
+		pq.pop();
+
+		f.first--;
+		s.first--;
+		
+		ans.push_back({f.second,s.second});
+
+		if(f.first!=0) pq.push(f);
+		if(s.first!=0) pq.push(s);
+	}
+
+	cout<<ans.size()<<endl;
+
+	for(auto p:ans){
+		cout<<p.first<<" "<<p.second<<endl;
+	}
+
 }
 
 
-int bin_search(vector<vector<int>> arr ,vector<vector<int>> vals,int i,int j,int st,int end,int n,int m,int k){
-	
-	// if((end-st)<1){
-		
-	// 	return end;
-	
-	// }
 
-	int d=(st+end)/2;
-	// cout<<"din is : "<<st<<" "<<end<<" "<<" "<<d<<endl;
-
-	int x1=max(i-d,1);
-	int y1=max(1,j-d);
-	int x2=min(i+d,n);
-	int y2=min(m,j+d);
-	int sum=(arr[x2][y2]-arr[x2][y1-1]-arr[x1-1][y2]+arr[x1-1][y1-1]);
-	
-		// cout<<x1<<" "<<y1<<" "<<x2<<" "<<y2<<" "<<sum<<endl;
-	
-	if((end-st)<1){
-		if(sum<k+1){
-			return d;
-		}
-		else{
-			return d;
-		}
-		
-	
-	}
-	if(sum>=k+1){
-		return bin_search(arr,vals,i,j,st,d,n,m,k);
-	}
-	else{
-		// cout<<d+1<<" caller "<<end<<endl;
-		return bin_search(arr,vals,i,j,d+1,end,n,m,k);
-	}
-}
-
-int main(){
-	int t;
+int32_t main(){
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	ll t=1;
 	cin>>t;
+	// t=1;
+	// sieve();
+	// cout<<setfwPcision(9);
 	
 	while(t--){
+		solve();		
 		
-		
-
-		// int n,m,k;
-		// cin>>n>>m>>k;
-		// vector<vector<int>> vals ;
-		// vector<vector<int>> arr ;
-		// for(int i=0;i<=n;i++){
-
-		// 	vector<int> v;
-		// 	arr.push_back(v);
-		// 	vector<int> siu;
-		// 	vals.push_back(siu);
-		// 	for(int j=0;j<=m;j++){
-		// 		// arr[i][j]=0;
-		// 		vals[i].push_back(0);
-		// 		arr[i].push_back(0);
-				
-		// 	}
-			
-		// }
-		
-		
-		// int kiss=0;
-		// for(int i=1;i<=n;i++){
-		// 	for(int j=1;j<=m;j++){
-		// 		int num;
-		// 		cin>>num;
-		// 		kiss+=num;
-		// 		vals[i][j]=num;
-		// 		arr[i][j]=arr[i-1][j]+arr[i][j-1]-arr[i-1][j-1]+num;
-		// 		// cout<<arr[i][j]<<" ";
-		// 	}
-			
-		// }
-		
-		// if(kiss<k+1){
-		// 	cout<<-1<<endl;
-		// 	continue;
-		// }
-
-		// int mini=INT_MAX;
-		// for(int i=1;i<=n;i++){
-		// 	for(int j=1;j<=m;j++){
-		// 		if(vals[i][j]==0){
-		// 			continue;
-		// 		}
-		// 		// cout<<"j: "<<j<<endl;
-		// 		int d=bin_search(arr,vals,i,j,0,max(n,m),n,m,k);
-		// 		// cout<<"d: "<<d<<endl;
-		// 		// cout<<endl;
-		// 		mini=min(mini,d);
-
-		// 	}
-		// }
-		// cout<<mini<<endl;
-	// 	 ll n; cin>>n;
-      // ll m, k; cin>>m>>k;
-      // ll i, j;
-      // ll a[n][m], sum[n+1][m+1];
-      // memset(sum,0, sizeof(sum));
-      // rep(i,0,n-1)
-      // {
-      //   rep(j,0,m-1)
-      //   {
-      //     cin>>a[i][j];
-      //     sum[i+1][j+1] = sum[i][j+1] + sum[i+1][j] - sum[i][j] + a[i][j];
-          
-      //   }
-      // }
-      // // loo(i, n+1)
-      // // {
-      // //   loo(j, m+1)
-      // //     cout<<sum[i][j]<<" ";
-      // //   cout<<endl;
-      // // }
-      // if(sum[n][m] < (k+1))
-      // {
-      //   cout<<"-1"<<endl;
-      //   continue;
-      // }
-      // ll ans = max(n, m)+1;
-      // // use binary search on every cell
-      // rep(i,0,n-1)
-      // {
-      //   rep(j,0,m-1)
-      //   {
-      //     if(a[i][j] == 0)
-      //       continue;
-      //     //cout<<"NEXT"<<endl;
-      //     ll low = 0, high = ans-1;
-      //     while(low<=high)
-      //     {
-      //       ll mid= (low+high)/2;
-      //       //cout<<low<<" "<<high<<" "<<mid<<endl;
-      //       ll ti = max((ll)-1, i-mid-1), lj = max((ll)-1, j-mid-1);
-      //       ll bi = min(n-1, i+mid), rj = min(m-1, j+mid);
-      //       ll tsum = sum[bi+1][rj+1]- sum[bi+1][lj+1] - sum[ti+1][rj+1] + sum[ti+1][lj+1];
-      //       //cout<<ti<<" "<<lj<<" "<<bi<<" "<<rj<<endl;
-      //       //cout<<sum[bi+1][rj+1]<<" "<<sum[bi+1][lj+1]<<" "<<sum[ti+1][rj+1]<<" "<<sum[ti+1][lj+1]<<endl<<endl;
-      //       if(tsum >=(k+1))
-      //       {
-      //         ans = min(ans, mid);
-      //         high = mid-1;
-      //       }
-      //       else
-      //         low = mid+1;
-      //     }
-      //     //cout<<ans<<" ";
-      //   }
-      //   //cout<<endl;
-      // }
-      // cout<<ans<<endl;
-
-
-		
-// 		int f;
-// cin>>f;
-// cout<<f<<endl;
-		
-		
-		// cout<<n<<" & "<<m<<endl;
-		// for(int i=0;i<m;i++){
-		// 	int f,p;
-		// 	string s;
-		// 	cin>>f>>p>>s;
-		// 	cout<<f<<" "<<p<<endl;
-		// }
-		
-		int n;
-		cin>>n;
-		int a[n],b[n];
-		for(int i=0;i<n;i++){
-			cin>>a[i];
-		}
-		for(int i=0;i<n;i++){
-			cin>>b[i];
-		}
-		int st=-1,end=-1;
-		for(int i=0;i<n;i++){
-			if(a[i]!=b[i]){
-				st=i;
-				break;
-			}
-		}
-		for(int i=n-1;i>=0;i--){
-			if(a[i]!=b[i]){
-				end=i;
-				break;
-			}
-		}
-		cout<<st<<" "<<end<<endl;
-
-
-
-
-
 	}
 	return 0;
 }
+ 
 
 
+ 
+ 
+ 
+ 

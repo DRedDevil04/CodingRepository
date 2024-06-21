@@ -16,22 +16,20 @@ int main(){
 			
 			printf("Enter value: \n");
 			scanf("%d",&val);
-			insertAVL(&tree1,val);
-			printf("\n__________________\n");
-			print2D(tree1);
-			printf("\n__________________\n");
+			insertBinTree(&tree1,val);
 		}
 		else{
 			break;
 		}
 	}
-	
+	int k;
+	printf("\nEnter number to find successor for :");
+	scanf("%d",&k);
 	printf("\n\n");
 	printf("\nMIN is :%d\n",(getMinBinTree(tree1))->key);
 	printf("\nMAX is :%d\n",(getMaxBinTree(tree1)->key));
 
-	// printf("\nSuccessor of %d is :%d\n",k,(successorBinTree(searchBinTree(tree1,k))->key));
-	printf("The height is : %d\n\n",tree1->height);
+	printf("\nSuccessor of %d is :%d\n",k,(successorBinTree(searchBinTree(tree1,k))->key));
 	printf("In-order is: \n");
 	inorder(tree1);
 	printf("\n\n");
@@ -40,7 +38,5 @@ int main(){
 	printf("\n\n");
 	printf("Post-order is: \n");
 	postorder(tree1);
-	printf("\n\n");
-
 	return 0;
 }

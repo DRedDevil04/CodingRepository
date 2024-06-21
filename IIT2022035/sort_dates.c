@@ -257,8 +257,7 @@ int getMax(int arr[][3],int n, int q)
 }
   
 
-void sortDatesUtil(int arr[][3], 
-                   int n, int q)
+void sortDatesUtil(int arr[][3], int n, int q)
 {
     int maxi = getMax(arr,n,q);
     int p = 1;
@@ -330,7 +329,7 @@ void printArr(int arr[][3], int n)
 
 int main() 
 { 
-		int n;
+	int n;
 	printf("Enter length of array: ");
 	scanf("%d",&n);
 	

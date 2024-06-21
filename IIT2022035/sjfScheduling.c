@@ -3,7 +3,7 @@
 #include<stdio.h>
 
 #include<limits.h>
-
+#include <stdlib.h>
  
 
 /*Declaring heap globally so that we do not need to pass it as an argument every time*/
@@ -14,6 +14,7 @@
 struct program {
 		int BT;
 		int AT;
+        int num;
 };
 struct program heap[1000000];
 int  heapSize;
@@ -44,10 +45,10 @@ void Insert(struct program element) {
     int now = heapSize;
 
     while (heap[now / 2].BT > element.BT) {
-    	printf("bjhsdbhjbhjds");
+    	
         heap[now].BT = heap[now / 2].BT;
         heap[now].AT = heap[now / 2].AT;
-
+        heap[now].num=heap[now/2].num;
 
         now /= 2;
 
@@ -55,6 +56,7 @@ void Insert(struct program element) {
 
     heap[now].BT = element.BT;
     heap[now].AT = element.AT;
+    heap[now].num=element.num;
 
 }
 
@@ -62,33 +64,15 @@ void Insert(struct program element) {
 
 struct program DeleteMin() {
 
-    /* heap[1] is the minimum element. So we remove heap[1]. Size of the heap is decreased.
-
-     Now heap[1] has to be filled. We put the last element in its place and see if it fits.
-
-     If it does not fit, take minimum element among both its children and replaces parent with it.
-
-     Again See if the last element fits in that place.*/
-
     int  child, now;
     struct program minElement, lastElement;
     minElement = heap[1];
 
     lastElement = heap[heapSize--];
 
-    /* now refers to the index at which we are now */
-
     for (now = 1; now * 2 <= heapSize; now = child) {
 
-        /* child is the index of the element which is minimum among both the children */
-
-        /* Indexes of children are i*2 and i*2 + 1*/
-
         child = now * 2;
-
-        /*child!=heapSize beacuse heap[heapSize+1] does not exist, which means it has only one
-
-         child */
 
         if (child != heapSize && heap[child + 1].BT < heap[child].BT) {
 
@@ -96,17 +80,13 @@ struct program DeleteMin() {
 
         }
 
-        /* To check if the last element fits ot not it suffices to check if the last element
-
-         is less than the minimum element among both the children*/
-
         if (lastElement.BT > heap[child].BT) {
 
             heap[now].BT = heap[child].BT	;
             heap[now].AT = heap[child].AT	;
+            heap[now].num=heap[child].num;
 
-
-        } else /* It fits there */
+        } else
 
         {
 
@@ -118,14 +98,40 @@ struct program DeleteMin() {
 
     heap[now].BT = lastElement.BT;
     heap[now].AT = lastElement.AT;
-
+    heap[now].num=lastElement.num;
 
     return minElement;
 
 }
-
+// devam is my name
  
-
+void swap(struct program* xp, struct program* yp)
+{
+    struct program temp = *xp;
+    *xp = *yp;
+    *yp = temp;
+}
+ 
+// An optimized version of Bubble Sort
+void bubbleSort(struct program arr[], int n)
+{
+    int i, j;
+    int  swapped;
+    for (i = 0; i < n - 1; i++) {
+        swapped = 0;
+        for (j = 0; j < n - i - 1; j++) {
+            if (arr[j].AT > arr[j + 1].AT) {
+                swap(&arr[j], &arr[j + 1]);
+                swapped = 1;
+            }
+        }
+ 
+        // If no two elements were swapped by inner loop,
+        // then break
+        if (swapped == 0)
+            break;
+    }
+}
 int main() {
 
     int number_of_elements;
@@ -141,20 +147,43 @@ int main() {
 
     printf("Enter the burst time and arrival time : ");
 
-    for (iter = 0; iter < number_of_elements; iter++) {
+   
+    struct program *arr=(struct program* )malloc(sizeof(struct program)*number_of_elements);
 
+    for (iter = 0; iter < number_of_elements; iter++) {
+        printf("\n");
         scanf("%d%d", &(element.BT),&(element.AT));
-
-        Insert(element);
-
-    }
-
-    for (iter = 0; iter < number_of_elements; iter++) {
-    	struct program temp=DeleteMin();
-        printf("\n%d %d",temp.BT,temp.AT );
+        element.num=iter+1;
+        
+        arr[iter]=element;
 
     }
+    bubbleSort(arr,number_of_elements);
+    // for (iter = 0; iter < number_of_elements; iter++) {
 
+    //     printf("%d  %d %d \n", (arr[iter].BT),arr[iter].AT,arr[iter].num);
+       
+
+    // }
+    int state =0;
+    int arr_ind=0;
+    int end;
+    for (int i = 1; i < 1000; i++) {
+        if(end==i) state =0;
+        while(arr[arr_ind].AT==i){
+            Insert(arr[arr_ind]);
+            arr_ind++;
+        }
+        if(state==0){
+            if(heapSize==0){
+                continue;
+            }
+            struct program t= DeleteMin();
+            printf("\nThe next program is : %d", t.num);
+            end=i+t.BT;
+            state =1;
+        }
+    }
     printf("\n");
 
     return 0;

@@ -3,7 +3,6 @@
 #include "adt.h"
 
 float compute(char op,float op1, float op2){
-	printf("%.2f %c %.2f\n",op1,op,op2);
 	float ans;
 		switch (op){
 			case '+':
@@ -33,60 +32,49 @@ int main(int argc, char*argv[]){
 	char s[100];
 	stack *calc,*oper,*fin;
 	create_stack(&calc);
-	
+	create_stack(&oper);
+	create_stack(&fin);
 	int i=0;
-	while((s[i]=fgetc(fptr))!='#' || i>=98){
+	while((s[i]=fgetc(fptr))!=EOF || i!=98){
 		
 		i++;
 	}
-
 	s[i]='\0';
-	i--;
-	
-	int f=0;
-	for(;i>=0;i--){
-		
+
+	for(int i=0;s[i]!='\0';i++){
 		if(s[i]==' '){
 			continue;
 		}
 		if(s[i]-'0'<=9 && s[i]-'0'>=0){
 
 			int sum=s[i]-'0';
-			
-			i--;
-			
-			int q=1;
-			while(s[i]!='\0' && ((s[i]-'0')<=9 && (s[i]-'0')>=0) ){
-				
-				q*=10;
-				sum+=(s[i]-'0')*q;
-				
-				i--;
-				
-				
-			}
+			// printf("SUM: %d\n",sum);
 			i++;
-			
+			// printf("SI IS %d\n",s[i]-'0');
+			while(s[i]!='\0' && ((s[i]-'0')<=9 && (s[i]-'0')>=0) ){
+				sum*=10;
+				sum+=(s[i]-'0');
+				s[i]=fgetc(fptr);
+				i++;
+				// printf("SUM: %d",sum);
+			}
 			push(&calc,(float)sum);
 			continue;
 		}
 		if(s[i]=='+'||s[i]=='-'||s[i]=='*'||s[i]=='/'){
 			
-			float ans=compute(s[i],pop(&calc),pop(&calc));
-			push(&calc,ans);
+			push(&oper,s[i]);
 		}
-
 		
 	}
-	
-	// while(calc!=NULL){
-	// 	push(&fin,pop(&calc));
-	// }
-	// while(oper!=NULL){
-	// 	float ans=compute(pop(&oper),pop(&calc),pop(&calc));
-	// 	push(&calc,ans);
-	// }
-	printf("\nFinal Answer is: %.2f",pop(&calc));
+	while(calc!=NULL){
+		push(&fin,pop(&calc));
+	}
+	while(oper!=NULL){
+		float ans=compute(pop(&oper),pop(&fin),pop(&fin));
+		push(&fin,ans);
+	}
+	printf("\nFinal Answer is: %.2f",pop(&fin));
 
 	return 0;
 }

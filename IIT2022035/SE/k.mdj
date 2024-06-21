@@ -1,0 +1,72 @@
+{
+	"_type": "Project",
+	"_id": "AAAAAAFF+h6SjaM2Hec=",
+	"name": "Untitled",
+	"ownedElements": [
+		{
+			"_type": "UMLModel",
+			"_id": "AAAAAAFF+qBWK6M3Z8Y=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "Model",
+			"ownedElements": [
+				{
+					"_type": "UMLClassDiagram",
+					"_id": "AAAAAAFF+qBtyKM79qY=",
+					"_parent": {
+						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
+					},
+					"name": "Main",
+					"defaultDiagram": true
+				}
+			]
+		},
+		{
+			"_type": "UMLModel",
+			"_id": "AAAAAAGPGnd5GPsVgK8=",
+			"_parent": {
+				"$ref": "AAAAAAFF+h6SjaM2Hec="
+			},
+			"name": "Model1",
+			"ownedElements": [
+				{
+					"_type": "UMLClassDiagram",
+					"_id": "AAAAAAGPGnd5GfsWxmI=",
+					"_parent": {
+						"$ref": "AAAAAAGPGnd5GPsVgK8="
+					},
+					"name": "ClassDiagram1"
+				},
+				{
+					"_type": "UMLCollaboration",
+					"_id": "AAAAAAGPHb8bcPsb/wE=",
+					"_parent": {
+						"$ref": "AAAAAAGPGnd5GPsVgK8="
+					},
+					"name": "Collaboration1",
+					"ownedElements": [
+						{
+							"_type": "UMLInteraction",
+							"_id": "AAAAAAGPHb8bcfscRKU=",
+							"_parent": {
+								"$ref": "AAAAAAGPHb8bcPsb/wE="
+							},
+							"name": "Interaction1",
+							"ownedElements": [
+								{
+									"_type": "UMLSequenceDiagram",
+									"_id": "AAAAAAGPHb8bcvsdyG8=",
+									"_parent": {
+										"$ref": "AAAAAAGPHb8bcfscRKU="
+									},
+									"name": "SequenceDiagram1"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
