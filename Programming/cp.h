@@ -214,14 +214,34 @@ int ncr(int n,int r){
 // Using BFS
 
 
-
-
-
-
-
-
-
-
+bool bfsCheck(int src, vector<int> adj[], int vis[]) {
+      vis[src] = 1; 
+      // store <source node, parent node>
+      queue<pair<int,int>> q; 
+      q.push({src, -1}); 
+      // traverse until queue is not empty
+      while(!q.empty()) {
+          int node = q.front().first; 
+          int parent = q.front().second; 
+          q.pop(); 
+          
+          // go to all adjacent nodes
+          for(auto adjacentNode: adj[node]) {
+              // if adjacent node is unvisited
+              if(!vis[adjacentNode]) {
+                  vis[adjacentNode] = 1; 
+                  q.push({adjacentNode, node}); 
+              }
+              // if adjacent node is visited and is not it's own parent node
+              else if(parent != adjacentNode) {
+                  // yes it is a cycle
+                  return true; 
+              }
+          }
+      }
+      // there's no cycle
+      return false; 
+  }
 
 
 // #######################################################################################
@@ -243,7 +263,7 @@ void findTopoSort(int node, vector < int > & vis, stack < int > & st, vector < i
     st.push(node);
   }
 
-    vector < int > topoSort(int N, vector < int > adj[]) {
+vector < int > topoSort(int N, vector < int > adj[]) {
       stack < int > st;
       vector < int > vis(N, 0);
       for (int i = 0; i < N; i++) {
@@ -759,6 +779,154 @@ void dfs(int node, vector<int> &vis, vector<int> adj[],
 
 
 // #######################################################################################
+// Fenwick Tree (Binary Indexed Tree)
+// ################################################################################################
+
+#define N 1e5
+vector<int> bit(N,0);
+vector<int> a(N,0);
+//1 indexed
+
+long long sum(int i){
+	int ans=0;
+	for(;i>0;i-=(i&(-i))){
+		ans+=bit[i];
+	}
+	return ans;
+}
+
+void update(int i, int val){
+	for(;i<=N;i+=(i&(-i))){
+		bit[i]+=val;
+	}
+}
+
+
+struct fenwick_tree{
+	vector<int> bit;
+	void init(int n){
+		while(n--){
+			bit.push_back(0);
+		}
+	}
+	long long sum(int i){
+		int ans=0;
+		for(;i>0;i-=(i&(-i))){
+			ans+=bit[i];
+		}
+		return ans;
+	}
+
+	void update(int i, int val){
+		for(;i<=N;i+=(i&(-i))){
+			bit[i]+=val;
+		}
+	}
+
+	void clear(){
+		fill(bit.begin(), bit.end(), 0);
+	}
+	// int bit_search(int v){
+	// 	int sum = 0;
+	// 	int pos = 0;
+		
+	// 	for(int i=log2(n); i>=0; i--)
+	// 	{
+	// 		if(pos + (1 << i) < N and sum + bit[pos + (1 << i)] < v)
+	// 		{
+	// 			sum += bit[pos + (1 << i)];
+	// 			pos += (1 << i);
+	// 		}
+	// 	}
+
+	// 	return pos + 1; // +1 because 'pos' will have position of largest value less than 'v'
+	// }	
+};
+
+
+
+// #######################################################################################
+// Segment Tree
+// ################################################################################################
+
+int n;
+int a[N], b[N]; 
+
+// 
+struct SegTree
+{
+     int N;
+     vector<int> st;
+    
+     void init(int n)
+     {
+          N = n;
+          st.resize(4 * N + 5);
+     }
+
+     
+
+     void Build(int node, int L, int R)
+     {
+          if (L == R)
+          {
+               st[node] = b[L];
+               return;
+          }
+          int M = (L + R) / 2;
+          Build(node * 2, L, M);
+          Build(node * 2 + 1, M + 1, R);
+          st[node] = max(st[node * 2], st[node * 2 + 1]);
+     }
+
+     void Update(int node, int L, int R, int pos, int val)
+     {
+          if (L == R)
+          {
+               st[node] += val;
+               return;
+          }
+          int M = (L + R) / 2;
+          if (pos <= M)
+               Update(node * 2, L, M, pos, val);
+          else
+               Update(node * 2 + 1, M + 1, R, pos, val);
+
+          st[node] = max(st[node * 2], st[node * 2 + 1]);
+     }
+
+     int Query(int node, int L, int R, int i, int j)
+     {
+          if (j < L || i > R)
+               return 0;
+          if (i <= L && R <= j)
+               return st[node];
+          int M = (L + R) / 2; 
+          return max(Query(node * 2, L, M, i, j), Query(node * 2 + 1, M + 1, R, i, j));
+          
+     }
+
+     
+
+     int query(int l, int r) { return Query(1, 1, N, l, r); }
+
+     void update(int pos, int val) { Update(1, 1, N, pos, val); }
+
+     void build() { Build(1, 1, N); }
+
+};
+SegTree seg;
+
+void solve()
+{
+  seg.init(4 * n);
+  seg.build();
+}
+
+
+
+
+// #######################################################################################
 // Stable Marriage Problem
 // ################################################################################################
 
@@ -814,6 +982,8 @@ void stableMarriage(int prefer[2*N][N])
     for (int i = 0; i < N; i++)
        cout << " " << i+N << "\t" << wPartner[i] << endl;
 }
+
+
 
 
 /*Given that I am on the edge of completing the Machine Learning specialisation course by the same course creators. I think this course will further enhance my knowledge in the field of deep learning. Gaining an intuitive understanding of deep learning concepts is key in becoming an AI researcher and this course will provide me with a platform to transform my currently rudimentary ML skills to match an industry standard with exposure to cutting edge technology such as Sequence models, transformers , LSTMs etc. I also plan to create some projects and maybe start to delve into the research part of this particular domain. This will greatly contribute in my applications to colleges in the future. I promise to be a diligent student and complete all the assignments, quizzes and labs on time. Artificial Intelligence is the present and the future. It is an exciting field and i hope to be able to contribute to it after gaining some valuable knowledge from this course.
